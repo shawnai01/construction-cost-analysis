@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건설 원자재 원가 변동 분석 대시보드</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{card:'#1e293b',surface:'#0f172a'}}}}</script>
+<style>
+body{background:#0f172a;font-family:'Pretendard',system-ui,sans-serif}
+.chart-container{position:relative;width:100%;max-height:350px}
+canvas{max-height:350px}
+</style>
+</head>
+<body class="text-gray-200 min-h-screen">
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <!-- Header -->
+  <header class="mb-10 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">🏗️ 건설 원자재 원가 변동 분석</h1>
+    <p class="text-gray-400 text-sm">2025.03 ~ 2026.02 | 수도권 기준 | 공동주택 총공사비 100억 가정</p>
+  </header>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-card rounded-xl p-4 border border-gray-700">
+      <p class="text-xs text-gray-400 mb-1">레미콘 현재가</p>
+      <p class="text-2xl font-bold text-cyan-400">89,000<span class="text-sm text-gray-400"> 원/m³</span></p>
+      <p class="text-xs text-green-400 mt-1">▼ 2.6% (12개월)</p>
+    </div>
+    <div class="bg-card rounded-xl p-4 border border-gray-700">
+      <p class="text-xs text-gray-400 mb-1">철근 현재가</p>
+      <p class="text-2xl font-bold text-orange-400">760,000<span class="text-sm text-gray-400"> 원/톤</span></p>
+      <p class="text-xs text-red-400 mt-1">▲ 8.6% (12개월)</p>
+    </div>
+    <div class="bg-card rounded-xl p-4 border border-gray-700">
+      <p class="text-xs text-gray-400 mb-1">기본 시나리오 영향</p>
+      <p class="text-2xl font-bold text-yellow-400">+2.2<span class="text-sm text-gray-400"> 억원</span></p>
+      <p class="text-xs text-gray-400 mt-1">총공사비 대비</p>
+    </div>
+    <div class="bg-card rounded-xl p-4 border border-gray-700">
+      <p class="text-xs text-gray-400 mb-1">레미콘 가동률</p>
+      <p class="text-2xl font-bold text-red-400">17.4<span class="text-sm text-gray-400"> %</span></p>
+      <p class="text-xs text-gray-400 mt-1">역대 최저 (2024)</p>
+    </div>
+  </div>
+
+  <!-- Charts Row 1 -->
+  <div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div class="bg-card rounded-xl p-5 border border-gray-700">
+      <h2 class="text-lg font-semibold mb-4 text-cyan-400">📈 레미콘 월별 가격 추이</h2>
+      <div class="chart-container"><canvas id="remiconChart"></canvas></div>
+    </div>
+    <div class="bg-card rounded-xl p-5 border border-gray-700">
+      <h2 class="text-lg font-semibold mb-4 text-orange-400">📈 철근 월별 가격 추이</h2>
+      <div class="chart-container"><canvas id="rebarChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Charts Row 2 -->
+  <div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div class="bg-card rounded-xl p-5 border border-gray-700">
+      <h2 class="text-lg font-semibold mb-4 text-yellow-400">📊 시나리오별 총공사비 영향</h2>
+      <div class="chart-container"><canvas id="scenarioChart"></canvas></div>
+    </div>
+    <div class="bg-card rounded-xl p-5 border border-gray-700">
+      <h2 class="text-lg font-semibold mb-4 text-purple-400">🥧 원자재 비중 (총공사비 100억 기준)</h2>
+      <div class="chart-container"><canvas id="pieChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Causes Cards -->
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4 text-white">⚡ 변동 원인 요약</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    </div>
+  </div>
+
+  <footer class="text-center text-gray-500 text-xs py-6 border-t border-gray-800">
+    데이터 출처: 대한건설자재직협의회, 한국레미콘공업협동조합연합회, 현대제철 고시가, 스틸데일리 | 2026.03 기준
+  </footer>
+</div>
+
+<script>
+// === DATA ===
+const remiconData = {"unit":"원/m³","data":[{"month":"2025-03","price":91400},{"month":"2025-04","price":91400},{"month":"2025-05","price":91400},{"month":"2025-06","price":91000},{"month":"2025-07","price":90500},{"month":"2025-08","price":90500},{"month":"2025-09","price":90000},{"month":"2025-10","price":89500},{"month":"2025-11","price":89500},{"month":"2025-12","price":89000},{"month":"2026-01","price":89000},{"month":"2026-02","price":89000}]};
+
+const rebarData = {"unit":"원/ton","data":[{"month":"2025-03","price":700000},{"month":"2025-04","price":695000},{"month":"2025-05","price":690000},{"month":"2025-06","price":690000},{"month":"2025-07","price":695000},{"month":"2025-08","price":700000},{"month":"2025-09","price":710000},{"month":"2025-10","price":715000},{"month":"2025-11","price":720000},{"month":"2025-12","price":735000},{"month":"2026-01","price":745000},{"month":"2026-02","price":760000}]};
+
+const analysis = {"causes":[{"factor":"건설경기 장기 침체","category":"demand","impact":"high","desc":"건설 착공물량 급감으로 레미콘 생산량 2022년 1.41억m³→2024년 1.12억m³. 가동률 17.4%로 역대 최저."},{"factor":"건설사 연쇄 법정관리","category":"demand","impact":"high","desc":"2025년 법정관리 신청 건설사 급증. 수요 기반 축소 및 미수금 리스크 증가."},{"factor":"시멘트 원가 상승 및 환경규제","category":"supply","impact":"mid","desc":"시멘트 가격 2020년 7.5만→2024년 11.2만원/톤으로 49% 급등. 생산라인 10기 가동중단."},{"factor":"철스크랩 가격 급등","category":"supply","impact":"high","desc":"철스크랩 상승세 지속. 철근 가격 연쇄 인상(2026.2 76만→3월 77만원+α)."},{"factor":"현대제철 인천공장 대보수","category":"supply","impact":"mid","desc":"2026.3.5~4.3 압연라인 대보수+소형압연 폐쇄. 유통향 공급 사실상 중단."},{"factor":"정부 건설공사비 안정화 정책","category":"external","impact":"mid","desc":"국토부 협의체 운영, 배치플랜트 규제 완화 추진. 가격 하향 압력."},{"factor":"글로벌 원자재·에너지 비용","category":"external","impact":"mid","desc":"국제 유연탄·전력비 등이 시멘트·철강 제조원가에 직접 영향."},{"factor":"미국 철근 수출 수요","category":"external","impact":"low","desc":"미국 내 철근 고가격으로 한국산 수출 유인. 내수 물량 배분에 영향."}],"scenarios":{"optimistic":{"label":"낙관","total_cost_impact_억":-1.8,"remicon_change_pct":-3,"rebar_change_pct":-5,"assumption":"하반기 건설경기 회복, SOC 투자 확대, 원자재 안정"},"base":{"label":"기본","total_cost_impact_억":2.2,"remicon_change_pct":2,"rebar_change_pct":8,"assumption":"현 추세 유지. 레미콘 소폭 하락, 철근 강보합~소폭 상승"},"pessimistic":{"label":"비관","total_cost_impact_억":5.6,"remicon_change_pct":7,"rebar_change_pct":18,"assumption":"추가 침체, 철스크랩·에너지 급등, 공급설비 축소"}},"cost_structure":{"total_cost_억":100,"remicon_pct":10,"rebar_pct":12}};
+
+// === CHART DEFAULTS ===
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#334155';
+const months = remiconData.data.map(d => d.month.slice(2)); // "25-03"
+
+// === REMICON LINE ===
+new Chart(document.getElementById('remiconChart'),{type:'line',data:{labels:months,datasets:[{label:'레미콘 (원/m³)',data:remiconData.data.map(d=>d.price),borderColor:'#22d3ee',backgroundColor:'rgba(34,211,238,0.1)',fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#22d3ee'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y.toLocaleString()}원/m³`}}},scales:{y:{min:88000,max:92000,ticks:{callback:v=>v.toLocaleString()}}}}});
+
+// === REBAR LINE ===
+new Chart(document.getElementById('rebarChart'),{type:'line',data:{labels:months,datasets:[{label:'철근 (원/톤)',data:rebarData.data.map(d=>d.price),borderColor:'#fb923c',backgroundColor:'rgba(251,146,60,0.1)',fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#fb923c'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y.toLocaleString()}원/톤`}}},scales:{y:{min:680000,max:770000,ticks:{callback:v=>(v/10000)+'만'}}}}});
+
+// === SCENARIO BAR ===
+const sc = analysis.scenarios;
+new Chart(document.getElementById('scenarioChart'),{type:'bar',data:{labels:[sc.optimistic.label,sc.base.label,sc.pessimistic.label],datasets:[{label:'총공사비 영향 (억원)',data:[sc.optimistic.total_cost_impact_억,sc.base.total_cost_impact_억,sc.pessimistic.total_cost_impact_억],backgroundColor:['#34d399','#fbbf24','#f87171'],borderRadius:8,barThickness:60}]},options:{responsive:true,maintainAspectRatio:true,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.x>0?'+':''}${ctx.parsed.x}억원`}}},scales:{x:{grid:{color:'#1e293b'},ticks:{callback:v=>`${v>0?'+':''}${v}억`}}}}});
+
+// === PIE ===
+const cs = analysis.cost_structure;
+new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['레미콘','철근','기타'],datasets:[{data:[cs.remicon_pct,cs.rebar_pct,100-cs.remicon_pct-cs.rebar_pct],backgroundColor:['#22d3ee','#fb923c','#475569'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:true,cutout:'55%',plugins:{legend:{position:'bottom',labels:{padding:16,usePointStyle:true}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed}% (${ctx.parsed}억원)`}}}}});
+
+// === CAUSES CARDS ===
+const catStyle = {supply:{bg:'bg-blue-900/40',border:'border-blue-500/30',badge:'bg-blue-500/20 text-blue-300',label:'공급'},demand:{bg:'bg-purple-900/40',border:'border-purple-500/30',badge:'bg-purple-500/20 text-purple-300',label:'수요'},external:{bg:'bg-emerald-900/40',border:'border-emerald-500/30',badge:'bg-emerald-500/20 text-emerald-300',label:'외부'}};
+const impactStyle = {high:'🔴 높음',mid:'🟡 중간',low:'🟢 낮음'};
+const grid = document.querySelector('.grid.sm\\:grid-cols-2');
+analysis.causes.forEach(c => {
+  const s = catStyle[c.category];
+  grid.innerHTML += `<div class="${s.bg} ${s.border} border rounded-xl p-4">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-xs px-2 py-0.5 rounded-full ${s.badge}">${s.label}</span>
+      <span class="text-xs">${impactStyle[c.impact]}</span>
+    </div>
+    <h3 class="font-semibold text-white text-sm mb-1">${c.factor}</h3>
+    <p class="text-xs text-gray-400 leading-relaxed">${c.desc}</p>
+  </div>`;
+});
+</script>
+</body>
+</html>

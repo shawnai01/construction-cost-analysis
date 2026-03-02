@@ -1,0 +1,20 @@
+{
+  "unit": "원/ton",
+  "period": "monthly",
+  "source": "현대제철 고시가(SD400 기준), 스틸데일리, 한국철강협회 보도자료 기반",
+  "notes": "현대제철 SD400 유통가 기준. 2026.2 톤당 76만원 고시, 2026.3 톤당 77만원+추가인상 예고. 철스크랩 가격 상승·인천공장 대보수(3/5~4/3)로 공급 타이트.",
+  "data": [
+    { "month": "2025-03", "price": 700000, "change_pct": 0.0 },
+    { "month": "2025-04", "price": 695000, "change_pct": -0.7 },
+    { "month": "2025-05", "price": 690000, "change_pct": -0.7 },
+    { "month": "2025-06", "price": 690000, "change_pct": 0.0 },
+    { "month": "2025-07", "price": 695000, "change_pct": 0.7 },
+    { "month": "2025-08", "price": 700000, "change_pct": 0.7 },
+    { "month": "2025-09", "price": 710000, "change_pct": 1.4 },
+    { "month": "2025-10", "price": 715000, "change_pct": 0.7 },
+    { "month": "2025-11", "price": 720000, "change_pct": 0.7 },
+    { "month": "2025-12", "price": 735000, "change_pct": 2.1 },
+    { "month": "2026-01", "price": 745000, "change_pct": 1.4 },
+    { "month": "2026-02", "price": 760000, "change_pct": 2.0 }
+  ]
+}

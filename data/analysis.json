@@ -1,0 +1,81 @@
+{
+  "causes": [
+    {
+      "factor": "건설경기 장기 침체",
+      "category": "demand",
+      "impact": "high",
+      "desc": "건설 착공물량 급감으로 레미콘 생산량 2022년 1.41억m³→2024년 1.12억m³. 가동률 17.4%로 IMF 때(29.6%)보다 낮은 역대 최저치."
+    },
+    {
+      "factor": "건설사 연쇄 법정관리",
+      "category": "demand",
+      "impact": "high",
+      "desc": "2025년 법정관리 신청 건설사 급증. 수요 기반 축소 및 미수금 리스크 증가로 자재업계 연쇄 경영악화."
+    },
+    {
+      "factor": "시멘트 원가 상승 및 환경규제",
+      "category": "supply",
+      "impact": "mid",
+      "desc": "시멘트 가격 2020년 7.5만→2024년 11.2만원/톤으로 49% 급등. 환경규제 강화로 생산비용 증가, 생산라인 35기 중 10기 가동중단."
+    },
+    {
+      "factor": "철스크랩 가격 급등",
+      "category": "supply",
+      "impact": "high",
+      "desc": "2025년 하반기부터 철스크랩 가격 상승세 지속. 제강사 원가 부담 증가로 철근 가격 연쇄 인상(2026.2 76만→3월 77만원+α)."
+    },
+    {
+      "factor": "현대제철 인천공장 대보수",
+      "category": "supply",
+      "impact": "mid",
+      "desc": "2026.3.5~4.3 인천 철근 압연라인 대보수+소형압연 폐쇄. 유통향 공급 사실상 중단, 수급 타이트 장기화 가능성."
+    },
+    {
+      "factor": "정부 건설공사비 안정화 정책",
+      "category": "external",
+      "impact": "mid",
+      "desc": "국토부 민·관 협의체 운영, 배치플랜트 규제 완화 추진. 레미콘 가격 하향 압력으로 작용하나 업계 반발."
+    },
+    {
+      "factor": "글로벌 원자재·에너지 비용",
+      "category": "external",
+      "impact": "mid",
+      "desc": "국제 유연탄·전력비 등 에너지 비용이 시멘트·철강 제조원가에 직접 영향. 환율 변동도 수입 원자재 가격에 반영."
+    },
+    {
+      "factor": "미국 철근 수출 수요",
+      "category": "external",
+      "impact": "low",
+      "desc": "미국 내 철근 고가격 유지로 한국산 철근 수출 유인 존재. 내수 물량 배분에 영향을 미치는 변수."
+    }
+  ],
+  "scenarios": {
+    "optimistic": {
+      "label": "낙관 시나리오",
+      "assumption": "하반기 건설경기 회복 신호, 정부 SOC 투자 확대, 원자재 가격 안정",
+      "remicon_change_pct": -3,
+      "rebar_change_pct": -5,
+      "total_cost_impact_억": -1.8
+    },
+    "base": {
+      "label": "기본 시나리오",
+      "assumption": "현 추세 유지. 레미콘 소폭 하락 지속, 철근 원가 상승분 전가로 강보합~소폭 상승",
+      "remicon_change_pct": 2,
+      "rebar_change_pct": 8,
+      "total_cost_impact_억": 2.2
+    },
+    "pessimistic": {
+      "label": "비관 시나리오",
+      "assumption": "건설경기 추가 침체, 철스크랩·에너지 비용 급등, 공급설비 추가 축소",
+      "remicon_change_pct": 7,
+      "rebar_change_pct": 18,
+      "total_cost_impact_억": 5.6
+    }
+  },
+  "cost_structure": {
+    "total_cost_억": 100,
+    "remicon_pct": 10,
+    "rebar_pct": 12,
+    "note": "공동주택 기준 총공사비 100억 가정 시 레미콘 약 10억, 철근 약 12억 비중"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "unit": "원/m³",
+  "period": "monthly",
+  "source": "대한건설자재직협의회, 한국레미콘공업협동조합연합회, 업계 보도자료 기반",
+  "notes": "수도권 기준 25mm 보통 레미콘(25-210-12). 2025.3 수도권 협상단가 91,400원 확정(전년比 -2.45%). 건설경기 침체로 가동률 17.4%(2024)로 역대 최저.",
+  "data": [
+    { "month": "2025-03", "price": 91400, "change_pct": -2.5 },
+    { "month": "2025-04", "price": 91400, "change_pct": 0.0 },
+    { "month": "2025-05", "price": 91400, "change_pct": 0.0 },
+    { "month": "2025-06", "price": 91000, "change_pct": -0.4 },
+    { "month": "2025-07", "price": 90500, "change_pct": -0.5 },
+    { "month": "2025-08", "price": 90500, "change_pct": 0.0 },
+    { "month": "2025-09", "price": 90000, "change_pct": -0.6 },
+    { "month": "2025-10", "price": 89500, "change_pct": -0.6 },
+    { "month": "2025-11", "price": 89500, "change_pct": 0.0 },
+    { "month": "2025-12", "price": 89000, "change_pct": -0.6 },
+    { "month": "2026-01", "price": 89000, "change_pct": 0.0 },
+    { "month": "2026-02", "price": 89000, "change_pct": 0.0 }
+  ]
+}
